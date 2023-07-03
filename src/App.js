@@ -93,6 +93,8 @@ export default function App() {
     setWatched(watched => watched.filter(movie => movie.imdbID !== id));
   }
 
+  
+
   useEffect(
     function () {
 
@@ -124,11 +126,12 @@ export default function App() {
           setIsLoading(false);
         }
       }
-      if (!query.length < 3) {
+      if (!query.length) {
         setMovies([]);
         setError("");
         return;
       }
+      handleCloseMovie();
       fetchMovies();
 
       return function () {
@@ -313,7 +316,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     Director: director,
     Genre: genre,
   } = movie;
-  console.log(title, year);
+  //console.log(title, year);
 
   function handleAdd() {
     const newWatchedMovie = {
@@ -329,6 +332,21 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     onCloseMovie();
   }
 
+  useEffect(function () {
+
+    function callback (e){
+      if (e.code === "Escape") {
+        onCloseMovie();
+        //console.log("Close");
+      }
+    }
+    document.addEventListener("keydown", callback);
+
+    return function(){
+      document.removeEventListener("keydown", callback);
+    }
+  }, [onCloseMovie]);
+
   useEffect(
     function () {
       async function getMovieDetails() {
@@ -337,7 +355,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
           `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`
         );
         const data = await res.json();
-        console.log(data);
+        //console.log(data);
         setMovie(data);
         setIsLoading(false);
       }
@@ -352,7 +370,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 
     return function(){
       document.title = 'usePopcorn';
-      console.log(`Clean up effect for movie ${title}`);
+      //console.log(`Clean up effect for movie ${title}`);
     }
   }, [title]);
 
