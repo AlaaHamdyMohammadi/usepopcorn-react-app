@@ -56,15 +56,10 @@ const KEY = "5fec846f";
 export default function App() {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
-  // const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedId, setSelectedId] = useState(null);
-  const [watched, setWatched] = useState(function(){
-    const storedValue = localStorage.getItem('watched');
-    return JSON.parse(storedValue);
-  });
-
 
   const tempQuery = "interstellar";
 
@@ -92,17 +87,13 @@ export default function App() {
 
   function handleAddWatched(movie) {
     setWatched((watched) => [...watched, movie]);
-
-    //localStorage.setItem('watched', JSON.stringify([...watched, movie]))
   }
 
   function handleDeleteWatched(id){
     setWatched(watched => watched.filter(movie => movie.imdbID !== id));
   }
 
-  useEffect(function(){
-    localStorage.setItem('watched', JSON.stringify(watched));
-  },[watched])
+  
 
   useEffect(
     function () {
@@ -327,7 +318,6 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   } = movie;
   //console.log(title, year);
 
-
   function handleAdd() {
     const newWatchedMovie = {
       imdbId: selectedId,
@@ -340,7 +330,6 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     };
     onAddWatched(newWatchedMovie);
     onCloseMovie();
-    
   }
 
   useEffect(function () {
