@@ -54,7 +54,7 @@ const tempWatchedData = [
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-const KEY = "5fec846f";
+const KEY = "6409d020";
 
 export default function App() {
   const [query, setQuery] = useState("");
@@ -150,7 +150,7 @@ function Logo() {
   return (
     <div className="logo">
       <span role="img">🍿</span>
-      <h1>usePopcorn</h1>
+      <h1 className="text-xl text-yellow-500 ">usePopcorn</h1>
     </div>
   );
 }
